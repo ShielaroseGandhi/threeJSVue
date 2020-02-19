@@ -1,11 +1,17 @@
 <template>
-  <div id="app"></div>
+  <div id="app">
+    <Three></Three>
+  </div>
 </template>
 
 <script>
+import Three from "./components/Three";
+
 export default {
   name: "App",
-  components: {}
+  components: {
+    Three
+  }
 };
 </script>
 
