@@ -15,4 +15,9 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+html,
+body {
+  margin: 0;
+}
+</style>

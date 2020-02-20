@@ -1,13 +1,68 @@
 <template>
-  <div>
-    <h1>Three</h1>
-  </div>
+  <div id="container"></div>
 </template>
 
 <script>
+import * as THREE from "three";
+
 export default {
-  name: "Three"
+  name: "Three",
+  data() {
+    return {
+      camera: null,
+      scene: null,
+      renderer: null,
+      mesh: null
+    };
+  },
+  methods: {
+    init: function() {
+      let container = document.getElementById("container");
+
+      const fov = 70;
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      const aspect = width / height;
+      const near = 0.01;
+      const far = 10;
+
+      // CREATE CAMERA
+      this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+      this.camera.position.z = 5;
+
+      // CREATE SCENE
+      this.scene = new THREE.Scene();
+
+      // CREATE SHAPE
+      let geometry = new THREE.BoxGeometry(1, 1, 1);
+      let material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+
+      // CREATE MESH
+      this.mesh = new THREE.Mesh(geometry, material);
+      this.scene.add(this.mesh);
+
+      // CREATE RENDERER
+      this.renderer = new THREE.WebGLRenderer({ antialias: true });
+      this.renderer.setSize(width, height);
+      container.appendChild(this.renderer.domElement);
+    },
+    animate: function() {
+      requestAnimationFrame(this.animate);
+      this.mesh.rotation.x += 0.01;
+      this.mesh.rotation.y += 0.02;
+      this.renderer.render(this.scene, this.camera);
+    }
+  },
+  mounted() {
+    this.init();
+    this.animate();
+  }
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+#container {
+  height: 100vh;
+  width: 100%;
+}
+</style>
