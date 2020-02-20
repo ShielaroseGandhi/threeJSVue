@@ -19,7 +19,7 @@ export default {
     init: function() {
       let container = document.getElementById("container");
 
-      const fov = 70;
+      const fov = 75;
       const width = container.clientWidth;
       const height = container.clientHeight;
       const aspect = width / height;
@@ -34,12 +34,21 @@ export default {
       this.scene = new THREE.Scene();
 
       // CREATE SHAPE
-      let geometry = new THREE.BoxGeometry(1, 1, 1);
-      let material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+      const boxWidth = 1;
+      const boxHeight = 1;
+      const boxDepth = 1;
+
+      let geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+      let material = new THREE.MeshPhongMaterial({ color: 0xffff00 });
 
       // CREATE MESH
       this.mesh = new THREE.Mesh(geometry, material);
       this.scene.add(this.mesh);
+
+      // ADD LIGHTING
+      let light = new THREE.DirectionalLight(0xffffff, 1);
+      light.position.set(-2, 2, 5);
+      this.scene.add(light);
 
       // CREATE RENDERER
       this.renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -48,7 +57,7 @@ export default {
     },
     animate: function() {
       requestAnimationFrame(this.animate);
-      this.mesh.rotation.x += 0.01;
+      // this.mesh.rotation.x += 0.01;
       this.mesh.rotation.y += 0.02;
       this.renderer.render(this.scene, this.camera);
     }
